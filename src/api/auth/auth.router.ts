@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { INVERSIFY_TYPES } from '../../inversify.types';
 import { AuthController } from './auth.controller';
@@ -17,8 +18,8 @@ export class AuthRouter {
   public mountRoutes() {
     // TODO: Add Zod validator + Swagger Doc
     this.router.post(`/log-in`, async (req, res) => {
-      const result = await this.authController.logIn(req.body);
-      return res.status(200).json(result);
+      const result = await this.authController.logIn(req.body, req.query);
+      return res.status(StatusCodes.OK).json(result);
     });
   }
 }

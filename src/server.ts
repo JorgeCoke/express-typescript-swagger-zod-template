@@ -1,14 +1,14 @@
+import { json } from 'body-parser';
+import compression from 'compression';
 import cors from 'cors';
+import express from 'express';
 import helmet from 'helmet';
+import morgan from 'morgan';
 import { AuthRouter } from './api/auth/auth.router';
 import { container } from './inversify.config';
 import { INVERSIFY_TYPES } from './inversify.types';
 import { expressRateLimitMiddleware } from './shared/middlewares/express-rate-limit.middleware';
 import { env } from './shared/utils/env';
-import bodyParser = require('body-parser');
-import compression = require('compression');
-import morgan = require('morgan');
-import express = require('express');
 
 // Server
 const app = express();
@@ -19,7 +19,7 @@ app.use(helmet());
 app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
 app.use(expressRateLimitMiddleware);
 app.use(compression());
-app.use(bodyParser.json());
+app.use(json({ limit: '1mb' }));
 
 // Load Routes
 const authRouter = container.get<AuthRouter>(INVERSIFY_TYPES.AuthRouter);
@@ -29,5 +29,6 @@ routers.forEach((e) => {
 });
 
 // TODO: Add global error handler
+// TODO: Add timeout interceptor (Add a timeout to every request sent by the server)
 
 export { app };
