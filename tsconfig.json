@@ -8,6 +8,7 @@
     "moduleResolution": "Node",
     "outDir": "dist",
     "importsNotUsedAsValues": "remove",
+    "sourceMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -16,7 +17,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "extends": [],
   "exclude": ["node_modules"],
   "include": ["src/**/*.ts"]
 }

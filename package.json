@@ -18,9 +18,9 @@
   "homepage": "https://github.com/JorgeCoke/express-typescript-swagger-zod-template#readme",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsup",
+    "build": "npx rimraf dist && tsc",
     "start": "node dist/index.js",
-    "lint": "eslint 'src/**/*.{ts,js}'",
+    "lint": "eslint 'src/**/*.{ts,js}' && tsc --noEmit",
     "format": "prettier --write 'src/**/*.{ts,js}'",
     "format:staged": "lint-staged",
     "npm:audit": "better-npm-audit audit",
@@ -64,7 +64,7 @@
     "lint-staged": "^15.2.2",
     "npm-check": "^6.0.1",
     "prettier": "^3.2.5",
-    "tsup": "^8.0.2",
+    "rimraf": "^5.0.5",
     "tsx": "^4.7.2",
     "typescript": "^5.4.5"
   }
