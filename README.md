@@ -12,6 +12,9 @@
 
 ## ✨ Features
 
+- 🔒 Security middlewares providad: [Helmet](https://www.npmjs.com/package/helment) for HTTP header security, [CORS](https://www.npmjs.com/package/cors) setup, and [Rate Limiting](https://www.npmjs.com/package/express-rate-limit)
+- 💉 [InversifyJS](https://github.com/inversify/InversifyJS) Dependency Injection
+- 🌐 Latest stable NodeJS working environment, with .env config variables
 - 🎨 [ESLint](https://www.npmjs.com/package/eslint) & [Prettier](https://www.npmjs.com/package/prettier) as linter and formatter
 - 🐶 Pre-Commit and Commit [Husky](https://github.com/typicode/husky) hooks (Runs linter and formatter before any commit against staged files only!)
 - 💄 Commit nomenclature rules following [Conventional Commit Format](https://commitlint.js.org/) and [Commitizen CLI](https://github.com/commitizen/cz-cli) (emoji [powered](https://github.com/folke/devmoji))
