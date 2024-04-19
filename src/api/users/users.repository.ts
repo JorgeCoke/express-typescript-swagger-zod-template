@@ -9,7 +9,7 @@ export class UsersRepository {
     console.log(`🔂 ${this.constructor.name} singleton built`);
   }
 
-  public getUserByEmail(email: string): User {
+  public getUserByEmail(email: string): User | undefined {
     return this.users.find((e) => e.email === email);
   }
 }
