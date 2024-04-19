@@ -8,7 +8,9 @@ import { AuthRouter } from './api/auth/auth.router';
 import { container } from './inversify.config';
 import { INVERSIFY_TYPES } from './inversify.types';
 import { expressRateLimitMiddleware } from './shared/middlewares/express-rate-limit.middleware';
+import { globalErrorHandlerMiddleware } from './shared/middlewares/global-error-handler.middleware';
 import { env } from './shared/utils/env';
+require('express-async-errors');
 
 // Server
 const app = express();
@@ -28,7 +30,6 @@ routers.forEach((e) => {
   app.use(e.path, e.router);
 });
 
-// TODO: Add global error handler
-// TODO: Add timeout interceptor (Add a timeout to every request sent by the server)
+app.use(globalErrorHandlerMiddleware);
 
 export { app };

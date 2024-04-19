@@ -6,6 +6,7 @@ import { env } from './shared/utils/env';
 const server = app.listen(env.PORT, () => {
   console.log(`🚀 Express server listening at: http://${env.HOST}:${env.PORT}`);
 });
+server.setTimeout(Number(env.TIMEOUT_MS));
 
 const onCloseSignal = () => {
   console.log('❌ Close signal received, shutting down...');
