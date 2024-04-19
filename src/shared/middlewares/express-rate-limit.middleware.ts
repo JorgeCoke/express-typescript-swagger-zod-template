@@ -1,10 +1,10 @@
 import { rateLimit } from 'express-rate-limit';
+import { env } from '../utils/env';
 
-// TODO: Add windowMs and limit to .env
 const expressRateLimitMiddleware = rateLimit({
   legacyHeaders: true,
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+  windowMs: Number(env.RATE_LIMITER_WINDOW_MS),
+  limit: Number(env.RATE_LIMITER_LIMIT),
   standardHeaders: true
 });
 

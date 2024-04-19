@@ -43,6 +43,7 @@
     "inversify": "^6.0.2",
     "morgan": "^1.10.0",
     "reflect-metadata": "^0.2.2",
+    "rotating-file-stream": "^3.2.1",
     "zod": "^3.22.5"
   },
   "devDependencies": {

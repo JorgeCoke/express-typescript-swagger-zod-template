@@ -24,3 +24,6 @@ node_modules
 
 # typescript
 *.tsbuildinfo
+
+# logs
+logs

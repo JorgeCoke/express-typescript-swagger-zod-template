@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-const globalErrorHandlerMiddleware = (err: Error, req: Request, res: Response, next: NextFunction) => {
+const globalErrorHandlerMiddleware = (err: Error, _req: Request, res: Response, _next: NextFunction) => {
   // TODO: Migrate all console.logs using a logger
   console.error(err);
   res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Internal Server Error' });
