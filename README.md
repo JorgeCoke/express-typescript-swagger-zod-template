@@ -54,3 +54,10 @@ git push --follow-tags      # Push changes and GitTag to origin
 npm run npm:audit     # Check dependency vulnerabilities
 npm run npm:check     # Check outdated dependencies
 ```
+
+## 🏗 Build and launch
+
+```
+npm run build         # Compile project
+npm run start         # Launch
+```
