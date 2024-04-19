@@ -1,17 +1,19 @@
+import 'reflect-metadata';
+
 import { app } from './server';
 import { env } from './shared/utils/env';
 
 const server = app.listen(env.PORT, () => {
-  console.log(`🚀  Server (${env.NODE_ENV}) running on port http://${env.HOST}:${env.PORT}`);
+  console.log(`🚀 Express server listening at: http://${env.HOST}:${env.PORT}`);
 });
 
 const onCloseSignal = () => {
-  console.log('❌ sigint received, shutting down');
+  console.log('❌ Close signal received, shutting down...');
   server.close(() => {
-    console.log('❌ server closed');
+    console.log('❌ Server closed');
     process.exit();
   });
-  setTimeout(() => process.exit(1), 10000).unref(); // Force shutdown after 10s
+  setTimeout(() => process.exit(1), 5000).unref(); // Force shutdown after 10s
 };
 
 process.on('SIGINT', onCloseSignal);
