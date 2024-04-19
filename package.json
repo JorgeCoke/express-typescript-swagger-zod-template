@@ -1,0 +1,50 @@
+{
+  "name": "express-typescript-swagger-zod-template",
+  "version": "1.0.0",
+  "description": "Express Typescript Swagger and Zod template",
+  "engines": {
+    "node": ">=21.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JorgeCoke/express-typescript-swagger-zod-template.git"
+  },
+  "author": "JorgeCoke",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JorgeCoke/express-typescript-swagger-zod-template/issues"
+  },
+  "homepage": "https://github.com/JorgeCoke/express-typescript-swagger-zod-template#readme",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "lint": "eslint 'src/**/*.{ts,js}'",
+    "format": "prettier --write 'src/**/*.{ts,js}'",
+    "format:staged": "lint-staged",
+    "npm:audit": "better-npm-audit audit",
+    "npm:check": "npm-check -u",
+    "release": "branch=$(git branch --show-current); if [[ $branch == 'master' || $branch == 'main' ]]; then commit-and-tag-version; else echo 'Releases allowed from main branch only'; exit 1; fi;",
+    "cz": "cz",
+    "devmoji": "devmoji -e --lint",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.2.2",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@typescript-eslint/parser": "^7.7.0",
+    "better-npm-audit": "^3.7.3",
+    "commit-and-tag-version": "^12.3.0",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "devmoji": "^2.3.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-sonarjs": "^0.25.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "npm-check": "^6.0.1",
+    "prettier": "^3.2.5",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5"
+  }
+}
