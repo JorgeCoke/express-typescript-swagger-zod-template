@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { INVERSIFY_TYPES } from '../../inversify.types';
 import { UsersRepository } from '../users/users.repository';
-import { LogInBodyDto } from './auth.types';
+import { PostLogInBodyDto } from './auth.types';
 
 @injectable()
 export class AuthService {
@@ -12,8 +12,7 @@ export class AuthService {
     console.log(`🔂 ${this.constructor.name} singleton built`);
   }
 
-  public async doLogIn(body: LogInBodyDto) {
-    await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate slow http request
+  public async doLogIn(body: PostLogInBodyDto) {
     const user = this.usersRepository.getUserByEmail(body.email);
     return user != null && user.password === body.password;
   }

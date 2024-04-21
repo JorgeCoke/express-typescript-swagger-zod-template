@@ -6,9 +6,9 @@
 
 **Express** 🚀 template, including **Typesafety** 🛡, with **automatic Swagger OpenApi** 📚 docs generator and **Zod validator** 🦄. _What could go wrong with the trifecta?_
 
-- 🚀 Express
-- 📚 Swagger
-- 🦄 Zod
+- 🚀 Express: NodeJS server
+- 📚 Swagger: OpenApi definition automatically generated based on your Zod Schemas, served vía Swagger UI
+- 🦄 Zod: Validate inputs and outputs, type Req and Res automagically, under a Typesafety environment
 
 ## ✨ Features
 
@@ -16,7 +16,7 @@
 - ❌ Global Error Handler included
 - 🔒 Security middlewares provided: [Helmet](https://www.npmjs.com/package/helment) for HTTP header security, [CORS](https://www.npmjs.com/package/cors) setup, and [Rate Limiting](https://www.npmjs.com/package/express-rate-limit)
 - 💉 [InversifyJS](https://github.com/inversify/InversifyJS) Dependency Injection
-- 🌐 Latest stable NodeJS working environment, with .env config variables
+- 🌐 Latest stable NodeJS working environment, with .env config variables validated with [Zod](https://zod.dev/)
 - 🎨 [ESLint](https://www.npmjs.com/package/eslint) & [Prettier](https://www.npmjs.com/package/prettier) as linter and formatter
 - 🐶 Pre-Commit and Commit [Husky](https://github.com/typicode/husky) hooks (Runs linter and formatter before any commit against staged files only!)
 - 💄 Commit nomenclature rules following [Conventional Commit Format](https://commitlint.js.org/) and [Commitizen CLI](https://github.com/commitizen/cz-cli) (emoji [powered](https://github.com/folke/devmoji))

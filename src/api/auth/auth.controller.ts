@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { INVERSIFY_TYPES } from '../../inversify.types';
 import { AuthService } from './auth.service';
-import { LogInBodyDto, LogInQueryDto, LogInResponseDto } from './auth.types';
+import { PostLogInBodyDto, PostLogInQueryDto, PostLogInResponseDto } from './auth.types';
 
 @injectable()
 export class AuthController {
@@ -12,9 +12,11 @@ export class AuthController {
     console.log(`🔂 ${this.constructor.name} singleton built`);
   }
 
-  public async logIn(body: LogInBodyDto, query: LogInQueryDto): Promise<LogInResponseDto> {
-    console.log({ query });
+  public async logIn(body: PostLogInBodyDto, query: PostLogInQueryDto): Promise<PostLogInResponseDto> {
+    await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate slow http request
+    console.log({ query }); // Query Example
     const success = await this.authService.doLogIn(body);
+    // TODO: Throw error if no success
     return { success };
   }
 }
