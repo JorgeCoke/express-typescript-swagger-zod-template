@@ -17,13 +17,12 @@ export class AuthRouter {
     console.log(`🔂 ${this.constructor.name} singleton built`);
   }
 
-  // TODO: Add health check
   public mountRoutes() {
     this.router.post(
       `/log-in`,
       openAPIRoute(
         {
-          tag: 'Auth',
+          tag: this.routerPath,
           summary: 'Log-in user',
           description: 'Log-in into the service with user credentials',
           query: PostLogInQueryDto,

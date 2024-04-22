@@ -1,5 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { INVERSIFY_TYPES } from '../../inversify.types';
+import { HttpError } from '../../shared/types/http-error';
 import { AuthService } from './auth.service';
 import { PostLogInBodyDto, PostLogInQueryDto, PostLogInResponseDto } from './auth.types';
 
@@ -16,7 +18,9 @@ export class AuthController {
     await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate slow http request
     console.log({ query }); // Query Example
     const success = await this.authService.doLogIn(body);
-    // TODO: Throw error if no success
+    if (!success) {
+      throw new HttpError(StatusCodes.NOT_FOUND, 'User not found');
+    }
     return { success };
   }
 }
