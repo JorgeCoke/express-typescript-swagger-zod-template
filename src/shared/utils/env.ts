@@ -13,6 +13,8 @@ const envSchema = z.object({
   // CORS Settings
   CORS_ORIGIN: z.string().min(1),
   // Swagger
+  SWAGGER_USERNAME: z.string().min(1),
+  SWAGGER_PASSWORD: z.string().min(1),
   SWAGGER_ENDPOINT: z.string().min(1).startsWith('/'),
   SWAGGER_OPENAPI_DEF: z.string().min(1).startsWith('/'),
   // Log Retention
