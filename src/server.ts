@@ -7,8 +7,10 @@ import morgan from 'morgan';
 import { createStream } from 'rotating-file-stream';
 import { serve, setup } from 'swagger-ui-express';
 import { AuthRouter } from './api/auth/auth.router';
+import { MonitoringRouter } from './api/monitoring/monitoring.router';
 import { container } from './inversify.config';
 import { INVERSIFY_TYPES } from './inversify.types';
+import { basicAuthMiddleware } from './shared/middlewares/basic-auth.middleware';
 import { expressRateLimitMiddleware } from './shared/middlewares/express-rate-limit.middleware';
 import { globalErrorHandlerMiddleware } from './shared/middlewares/global-error-handler.middleware';
 import { env } from './shared/utils/env';
@@ -38,7 +40,11 @@ app.use(morgan('common', { stream: accessLogStream }));
 
 // Load Routes
 const authRouter = container.get<AuthRouter>(INVERSIFY_TYPES.AuthRouter);
-const routers = [{ path: `${env.API_BASE_PATH}${authRouter.routerPath}`, router: authRouter.router }];
+const monitoringRouter = container.get<MonitoringRouter>(INVERSIFY_TYPES.MonitoringRouter);
+const routers = [
+  { path: `${env.API_BASE_PATH}${authRouter.routerPath}`, router: authRouter.router },
+  { path: `${env.API_BASE_PATH}${monitoringRouter.routerPath}`, router: monitoringRouter.router }
+];
 routers.forEach((e) => {
   app.use(e.path, e.router);
 });
@@ -63,9 +69,9 @@ const doc = buildOpenAPIDocument({
     }
   }
 });
+app.use(basicAuthMiddleware(env.SWAGGER_USERNAME, env.SWAGGER_PASSWORD, 'swagger', env.SWAGGER_ENDPOINT));
 app.get(`${env.API_BASE_PATH}${env.SWAGGER_ENDPOINT}${env.SWAGGER_OPENAPI_DEF}`, (_req, res) => res.json(doc));
 app.use(`${env.API_BASE_PATH}${env.SWAGGER_ENDPOINT}`, serve, setup(doc));
-// TODO: Add basic auth to ${env.SWAGGER_ENDPOINT}
 
 // Load Global Error Middleware last
 app.use(globalErrorHandlerMiddleware);
