@@ -14,6 +14,7 @@
 
 - 📄 [Morgan](https://www.npmjs.com/package/morgan) Log retention. Save your request logs automatically with an automated rotating write stream
 - ❌ Global Error Handler included
+- ❤️‍🩹 Monitoring Health check endpoint included
 - 🔒 Security middlewares provided: [Helmet](https://www.npmjs.com/package/helment) for HTTP header security, [CORS](https://www.npmjs.com/package/cors) setup, and [Rate Limiting](https://www.npmjs.com/package/express-rate-limit)
 - 💉 [InversifyJS](https://github.com/inversify/InversifyJS) Dependency Injection
 - 🌐 Latest stable NodeJS working environment, with .env config variables validated with [Zod](https://zod.dev/)
