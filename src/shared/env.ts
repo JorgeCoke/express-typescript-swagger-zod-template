@@ -4,7 +4,7 @@ dotenv.config();
 
 const envSchema = z.object({
   // Environment Configuration
-  NODE_ENV: z.union([z.literal('development'), z.literal('production')]).default('development'),
+  NODE_ENV: z.union([z.literal('development'), z.literal('production'), z.literal('test')]).default('development'),
   PORT: z.coerce.number().min(1000),
   HOST: z.string().min(1),
   API_BASE_PATH: z.string().min(1).startsWith('/'),
