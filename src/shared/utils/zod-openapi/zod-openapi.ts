@@ -157,13 +157,15 @@ export function buildOpenAPIDocument(args: {
       request: {
         params: asZodObject(referencingNamedSchemas(params)),
         query: asZodObject(referencingNamedSchemas(query)),
-        body: {
-          content: {
-            'application/json': {
-              schema: referencingNamedSchemas(body)
+        ...(body && {
+          body: {
+            content: {
+              'application/json': {
+                schema: referencingNamedSchemas(body)
+              }
             }
           }
-        }
+        })
       },
       responses: responses
     });
@@ -212,13 +214,13 @@ const asZodObject = (type?: z.ZodType<any>) => {
 //   return path.toString().replace(`/^\\`, '').replace('(?:\\/(?=$))?(?=\\/|$)/i', '');
 // };
 
+// TODO: fix route with multiple middlewares are not loaded
 export const getRoutes = (routers: { path: string; router: Router }[]) => {
   const routes: {
     path: string;
     method: 'get' | 'post' | 'put' | 'delete';
     handler: RequestHandler;
   }[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const processMiddleware = (middleware: any, prefix = ''): void => {
     // if (middleware.name === 'router' && middleware.handle.stack) {
     //   for (const subMiddleware of middleware.handle.stack) {
