@@ -8,7 +8,7 @@
 
 - 🚀 Express: NodeJS server
 - 📚 Swagger: OpenApi definition automatically generated based on your Zod Schemas, served vía Swagger UI
-- 🦄 Zod: Validate inputs and outputs, type Req and Res automagically, under a Typesafety environment
+- 🦄 Zod: Validate inputs and outputs, type Req and Res objects automagically, under a Typesafety environment
 
 ## ✨ Features
 
