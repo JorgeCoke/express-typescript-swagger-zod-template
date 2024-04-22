@@ -12,6 +12,8 @@
 
 ## ✨ Features
 
+- 📁 Scalable Project Structure, split features into modules
+- 🧪 Powerful testing suite setup with [Vitest](https://vitest.dev/) and [Supertest](https://www.npmjs.com/package/supertest). Unitary and Integration test included, +90% code coverage report included!
 - 📄 [Morgan](https://www.npmjs.com/package/morgan) Log retention. Save your request logs automatically with an automated rotating write stream
 - ❌ Global Error Handler included
 - ❤️‍🩹 Monitoring Health check endpoint included
@@ -66,4 +68,13 @@ npm run npm:check     # Check outdated dependencies
 ```
 npm run build         # Compile project
 npm run start         # Launch
+```
+
+## 🧪 Testing
+
+```
+npm run test                # Run all tests
+npm run test:cov            # Run all tests with code coverage report
+npm run test:unit           # Run unitary tests
+npm run test:integration    # Run integration tests
 ```
