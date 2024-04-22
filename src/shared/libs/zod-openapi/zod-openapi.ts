@@ -214,7 +214,6 @@ const asZodObject = (type?: z.ZodType<any>) => {
 //   return path.toString().replace(`/^\\`, '').replace('(?:\\/(?=$))?(?=\\/|$)/i', '');
 // };
 
-// TODO: fix route with multiple middlewares are not loaded
 export const getRoutes = (routers: { path: string; router: Router }[]) => {
   const routes: {
     path: string;
@@ -222,19 +221,21 @@ export const getRoutes = (routers: { path: string; router: Router }[]) => {
     handler: RequestHandler;
   }[] = [];
   const processMiddleware = (middleware: any, prefix = ''): void => {
+    const hasOpenApiMiddleware = middleware.route.stack.find((e: any) => e.__handle.validateSchema);
+
     // if (middleware.name === 'router' && middleware.handle.stack) {
     //   for (const subMiddleware of middleware.handle.stack) {
     //     processMiddleware(subMiddleware, `${prefix}${regexPrefixToString(middleware.regexp)}`);
     //   }
     // }
-    if (!middleware.route || middleware.route.stack[0].name != 'fn') {
-      // Avoid routes without openAPIRoute middleware
+    if (!hasOpenApiMiddleware) {
+      // Ignore routes without openAPIRoute middleware
       return;
     }
     routes.push({
       path: `${prefix}${middleware.route.path}`,
-      method: middleware.route.stack[0].method,
-      handler: middleware.route.stack[middleware.route.stack.length - 1].handle
+      method: hasOpenApiMiddleware.method,
+      handler: hasOpenApiMiddleware.handle
     });
   };
   // Can remove this any when @types/express upgrades to v5

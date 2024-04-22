@@ -19,7 +19,7 @@ export class AuthController {
     console.log({ query }); // Query Example
     const success = await this.authService.doLogIn(body);
     if (!success) {
-      throw new HttpError(StatusCodes.NOT_FOUND, 'User not found');
+      throw new HttpError(StatusCodes.NOT_FOUND, 'Invalid credentials or user not found');
     }
     return { success };
   }
