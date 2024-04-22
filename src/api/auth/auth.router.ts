@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { inject, injectable } from 'inversify';
 import { INVERSIFY_TYPES } from '../../inversify.types';
-import { openAPIRoute } from '../../shared/utils/zod-openapi/zod-openapi-route';
+import { openAPIRoute } from '../../shared/libs/zod-openapi/zod-openapi-route';
 import { AuthController } from './auth.controller';
 import { PostLogInBodyDto, PostLogInQueryDto, PostLogInResponseDto } from './auth.types';
 

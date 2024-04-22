@@ -10,12 +10,12 @@ import { AuthRouter } from './api/auth/auth.router';
 import { MonitoringRouter } from './api/monitoring/monitoring.router';
 import { container } from './inversify.config';
 import { INVERSIFY_TYPES } from './inversify.types';
+import { env } from './shared/env';
+import { buildOpenAPIDocument } from './shared/libs/zod-openapi/zod-openapi';
+import { ErrorResponse } from './shared/libs/zod-openapi/zod-openapi.types';
 import { basicAuthMiddleware } from './shared/middlewares/basic-auth.middleware';
 import { expressRateLimitMiddleware } from './shared/middlewares/express-rate-limit.middleware';
 import { globalErrorHandlerMiddleware } from './shared/middlewares/global-error-handler.middleware';
-import { env } from './shared/utils/env';
-import { buildOpenAPIDocument } from './shared/utils/zod-openapi/zod-openapi';
-import { ErrorResponse } from './shared/utils/zod-openapi/zod-openapi.types';
 require('express-async-errors');
 
 // Server

@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 import { z } from 'zod';
 dotenv.config();
 
-// TODO: Move to shared folder, and rename "utils" to "lib"
 const envSchema = z.object({
   // Environment Configuration
   NODE_ENV: z.union([z.literal('development'), z.literal('production')]).default('development'),

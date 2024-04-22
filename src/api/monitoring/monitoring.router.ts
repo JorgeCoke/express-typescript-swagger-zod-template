@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { injectable } from 'inversify';
-import { openAPIRoute } from '../../shared/utils/zod-openapi/zod-openapi-route';
+import { openAPIRoute } from '../../shared/libs/zod-openapi/zod-openapi-route';
 import { GetHealthResponseDto } from './monitoring.types';
 
 @injectable()

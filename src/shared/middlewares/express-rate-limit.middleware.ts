@@ -1,5 +1,5 @@
 import { rateLimit } from 'express-rate-limit';
-import { env } from '../utils/env';
+import { env } from '../env';
 
 const expressRateLimitMiddleware = rateLimit({
   legacyHeaders: true,
