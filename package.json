@@ -24,6 +24,8 @@
     "test:dev": "vitest dev",
     "test:cov": "vitest run --coverage",
     "test:ui": "vitest --ui",
+    "test:unit": "vitest run --dir src",
+    "test:integration": "vitest run --dir test/integration",
     "lint": "eslint 'src/**/*.{ts,js}' && tsc --noEmit",
     "format": "prettier --write 'src/**/*.{ts,js}'",
     "format:staged": "lint-staged",
