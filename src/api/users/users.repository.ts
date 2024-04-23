@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { Injectable } from '../../shared/libs/injectable';
+import { Injectable } from '../../libs/injectable';
 import { User } from './users.types';
 
 @injectable()

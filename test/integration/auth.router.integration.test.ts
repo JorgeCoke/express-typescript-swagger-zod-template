@@ -1,8 +1,8 @@
 import { Express } from 'express';
 import request from 'supertest';
 import { beforeAll, describe, expect, test } from 'vitest';
+import { env } from '../../src/libs/env';
 import { app as server } from '../../src/server';
-import { env } from '../../src/shared/env';
 
 describe('AuthRouter', () => {
   let app: Express;

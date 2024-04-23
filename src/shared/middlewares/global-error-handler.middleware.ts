@@ -1,6 +1,6 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { logger } from '../libs/pino-logger';
+import { logger } from '../../libs/pino-logger';
 import { HttpError } from '../types/http-error';
 
 const globalErrorHandlerMiddleware: ErrorRequestHandler = (

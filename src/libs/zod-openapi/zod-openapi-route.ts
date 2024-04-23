@@ -3,7 +3,7 @@ import { ZodMediaType } from '@asteasolutions/zod-to-openapi/dist/openapi-regist
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { ZodError, ZodSchema, ZodTypeAny, z } from 'zod';
-import { env } from '../../env';
+import { env } from '../env';
 import { ErrorResponse } from './zod-openapi.types';
 
 type ValidatedMiddleware<ZBody, ZQuery, ZParams, ZResponse> = (

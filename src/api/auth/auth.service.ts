@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { INVERSIFY_TYPES } from '../../inversify.types';
-import { Injectable } from '../../shared/libs/injectable';
+import { Injectable } from '../../libs/injectable';
 import { UsersRepository } from '../users/users.repository';
 import { PostLogInBodyDto } from './auth.types';
 
