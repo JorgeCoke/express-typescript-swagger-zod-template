@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.1.0](https://github.com/JorgeCoke/express-typescript-swagger-zod-template/compare/v1.0.0...v1.1.0) (2024-04-23)
+
+
+### Features
+
+* ✨ add pino logger ([00cbac5](https://github.com/JorgeCoke/express-typescript-swagger-zod-template/commit/00cbac5ced34da6304580c45c99302fb4e60cbd6))
+* ✨ disable accessing process.env ([a9a3126](https://github.com/JorgeCoke/express-typescript-swagger-zod-template/commit/a9a312629e3f3014b7c7e20e5977a52745b95010))
+
 ## 1.0.0 (2024-04-22)
 
 
