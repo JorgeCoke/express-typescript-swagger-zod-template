@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 
+import { env } from './lib/env';
+import { logger } from './lib/pino-logger';
 import { app } from './server';
-import { env } from './shared/env';
-import { logger } from './shared/libs/pino-logger';
 
 const server = app.listen(env.PORT, () => {
   logger.info(`🚀 Express server listening at: http://${env.HOST}:${env.PORT}`);
