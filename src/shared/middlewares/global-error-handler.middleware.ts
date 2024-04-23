@@ -1,5 +1,6 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { logger } from '../libs/pino-logger';
 import { HttpError } from '../types/http-error';
 
 const globalErrorHandlerMiddleware: ErrorRequestHandler = (
@@ -8,7 +9,7 @@ const globalErrorHandlerMiddleware: ErrorRequestHandler = (
   res: Response,
   _next: NextFunction
 ) => {
-  console.error(err); // TODO: Migrate all console.logs using a logger
+  logger.error(err);
   if (err instanceof HttpError) {
     res.status(err.status).send({ error: err.message });
   } else {
@@ -17,5 +18,4 @@ const globalErrorHandlerMiddleware: ErrorRequestHandler = (
   }
 };
 
-// TODO: Check: is better to export const or default JS export
 export { globalErrorHandlerMiddleware };

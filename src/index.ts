@@ -2,22 +2,23 @@ import 'reflect-metadata';
 
 import { app } from './server';
 import { env } from './shared/env';
+import { logger } from './shared/libs/pino-logger';
 
 const server = app.listen(env.PORT, () => {
-  console.log(`🚀 Express server listening at: http://${env.HOST}:${env.PORT}`);
-  console.log(
+  logger.info(`🚀 Express server listening at: http://${env.HOST}:${env.PORT}`);
+  logger.info(
     `📄 OpenApi definition file available at: http://${env.HOST}:${env.PORT}${env.API_BASE_PATH}${env.SWAGGER_ENDPOINT}${env.SWAGGER_OPENAPI_DEF}`
   );
-  console.log(
+  logger.info(
     `📚 Swagger docs available at: http://${env.HOST}:${env.PORT}${env.API_BASE_PATH}${env.SWAGGER_ENDPOINT}`
   );
 });
 server.setTimeout(env.TIMEOUT_MS);
 
 const onCloseSignal = () => {
-  console.log('❌ Close signal received, shutting down...');
+  logger.info('❌ Close signal received, shutting down...');
   server.close(() => {
-    console.log('❌ Server closed');
+    logger.info('❌ Server closed');
     process.exit();
   });
   setTimeout(() => process.exit(1), 5000).unref(); // Force shutdown after 10s

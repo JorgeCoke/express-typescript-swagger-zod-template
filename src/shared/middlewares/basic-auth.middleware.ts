@@ -16,5 +16,4 @@ const basicAuthMiddleware = (u: string, p: string, realm: string, path: string):
   };
 };
 
-// TODO: Check: is better to export const or default JS export
 export { basicAuthMiddleware };

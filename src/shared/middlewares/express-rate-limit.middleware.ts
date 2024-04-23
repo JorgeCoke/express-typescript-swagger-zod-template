@@ -8,5 +8,4 @@ const expressRateLimitMiddleware = rateLimit({
   standardHeaders: true
 });
 
-// TODO: Check: is better to export const or default JS export
 export { expressRateLimitMiddleware };

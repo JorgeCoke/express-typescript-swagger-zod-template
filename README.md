@@ -4,17 +4,17 @@
 
 # Express + Typescript + Swagger + Zod [Template]
 
-**Express** 🚀 template, including **Typesafety** 🛡, with **automatic Swagger OpenApi** 📚 docs generator and **Zod validator** 🦄. _What could go wrong with the trifecta?_
-
-- 🚀 Express: NodeJS server
-- 📚 Swagger: OpenApi definition automatically generated based on your Zod Schemas, served vía Swagger UI
-- 🦄 Zod: Validate inputs and outputs, type Req and Res objects automagically, under a Typesafety environment
+**Express** 🚀 template, including **Typesafety** 🛡, with **automatic Swagger OpenApi** 📚 docs generator and **Zod validator** 🦄
 
 ## ✨ Features
 
+- 🚀 [Express](https://expressjs.com/) NodeJS server
+- 📚 [Swagger](https://swagger.io/) OpenApi definition automatically generated based on your Zod Schemas, served vía Swagger UI
+- 🦄 [Zod](https://zod.dev/) Validate inputs and outputs, type Req and Res objects automagically, under a Typesafety environment
 - 📁 Scalable Project Structure, split features into modules
 - 🧪 Powerful testing suite setup with [Vitest](https://vitest.dev/) and [Supertest](https://www.npmjs.com/package/supertest). Unitary and Integration test included, +90% code coverage report included!
 - 📄 [Morgan](https://www.npmjs.com/package/morgan) Log retention. Save your request logs automatically with an automated rotating write stream
+- 🌲 [Pino](https://github.com/pinojs/pino) logger
 - ❌ Global Error Handler included
 - ❤️‍🩹 Monitoring Health check endpoint included
 - 🔒 Security middlewares provided: [Helmet](https://www.npmjs.com/package/helment) for HTTP header security, [CORS](https://www.npmjs.com/package/cors) setup, and [Rate Limiting](https://www.npmjs.com/package/express-rate-limit)

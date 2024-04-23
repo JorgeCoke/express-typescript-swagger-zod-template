@@ -1,12 +1,13 @@
 import { injectable } from 'inversify';
+import { Injectable } from '../../shared/libs/injectable';
 import { User } from './users.types';
 
 @injectable()
-export class UsersRepository {
+export class UsersRepository extends Injectable {
   private readonly users: User[] = [{ id: 1, email: 'test@test.com', password: 'test' }];
 
   constructor() {
-    console.log(`🔂 ${this.constructor.name} singleton built`);
+    super();
   }
 
   public getUserByEmail(email: string) {
