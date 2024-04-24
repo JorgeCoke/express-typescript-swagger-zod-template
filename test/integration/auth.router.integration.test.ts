@@ -1,7 +1,7 @@
 import { Express } from 'express';
 import request from 'supertest';
 import { beforeAll, describe, expect, test } from 'vitest';
-import { env } from '../../src/libs/env';
+import { env } from '../../src/lib/env';
 import { app as server } from '../../src/server';
 
 describe('AuthRouter', () => {
@@ -15,7 +15,7 @@ describe('AuthRouter', () => {
     test('returns 200 when login is successful', async () => {
       const response = await request(app)
         .post(`${env.API_BASE_PATH}/auth/log-in`)
-        .send({ email: 'test@test.com', password: 'test' })
+        .send({ email: 'user1@test.com', password: 'test' })
         .expect(200);
       expect(response.body).toEqual({ success: true });
     });

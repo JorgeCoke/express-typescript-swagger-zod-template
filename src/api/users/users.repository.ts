@@ -1,16 +1,16 @@
+import { eq } from 'drizzle-orm';
 import { injectable } from 'inversify';
-import { Injectable } from '../../libs/injectable';
-import { User } from './users.types';
+import { users } from '../../../db/schemas/users';
+import { db } from '../../lib/drizzle';
+import { Injectable } from '../../lib/injectable';
 
 @injectable()
 export class UsersRepository extends Injectable {
-  private readonly users: User[] = [{ id: 1, email: 'test@test.com', password: 'test' }];
-
   constructor() {
     super();
   }
 
   public getUserByEmail(email: string) {
-    return this.users.find((e) => e.email === email);
+    return db.query.users.findFirst({ where: eq(users.email, email) }).execute();
   }
 }

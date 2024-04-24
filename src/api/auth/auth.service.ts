@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { INVERSIFY_TYPES } from '../../inversify.types';
-import { Injectable } from '../../libs/injectable';
+import { Injectable } from '../../lib/injectable';
 import { UsersRepository } from '../users/users.repository';
 import { PostLogInBodyDto } from './auth.types';
 
@@ -14,8 +14,7 @@ export class AuthService extends Injectable {
   }
 
   public async doLogIn(body: PostLogInBodyDto) {
-    this.logger.info(body, 'asd');
-    const user = this.usersRepository.getUserByEmail(body.email);
-    return user != null && user.password === body.password;
+    const user = await this.usersRepository.getUserByEmail(body.email);
+    return user != null && user.email === body.email;
   }
 }

@@ -30,3 +30,6 @@ logs
 
 # test
 coverage
+
+# Databases
+*.sqlite

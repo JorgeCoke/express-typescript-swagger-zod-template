@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
 import { INVERSIFY_TYPES } from '../../inversify.types';
-import { Injectable } from '../../libs/injectable';
+import { Injectable } from '../../lib/injectable';
 import { HttpError } from '../../shared/types/http-error';
 import { AuthService } from './auth.service';
 import { PostLogInBodyDto, PostLogInQueryDto, PostLogInResponseDto } from './auth.types';

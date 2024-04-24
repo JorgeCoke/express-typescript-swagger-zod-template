@@ -5,7 +5,12 @@ module.exports = {
     es2021: true,
     node: true
   },
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:sonarjs/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:sonarjs/recommended',
+    'plugin:drizzle/recommended'
+  ],
   overrides: [
     {
       env: {
@@ -22,7 +27,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
-  plugins: ['@typescript-eslint', 'sonarjs'],
+  plugins: ['@typescript-eslint', 'sonarjs', 'drizzle'],
   rules: {
     '@typescript-eslint/no-unused-vars': [
       'warn',

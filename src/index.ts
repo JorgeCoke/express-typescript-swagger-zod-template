@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
-import { env } from './libs/env';
-import { logger } from './libs/pino-logger';
+import { env } from './lib/env';
+import { logger } from './lib/pino-logger';
 import { app } from './server';
 
 const server = app.listen(env.PORT, () => {

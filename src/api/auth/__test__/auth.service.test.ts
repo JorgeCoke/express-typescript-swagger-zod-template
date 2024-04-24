@@ -15,13 +15,13 @@ describe('AuthService', () => {
 
   describe('doLogIn', () => {
     test('returns true when login is successful', async () => {
-      vi.mocked(usersRepository.getUserByEmail).mockReturnValue({ id: 1, email: 'email', password: 'password' });
+      vi.mocked(usersRepository.getUserByEmail).mockResolvedValue({ id: '1', email: 'email' });
       const result = await authService.doLogIn({ email: 'email', password: 'password' });
       expect(result).toBeTruthy();
     });
 
     test('returns false when login is wrong', async () => {
-      vi.mocked(usersRepository.getUserByEmail).mockReturnValue(undefined);
+      vi.mocked(usersRepository.getUserByEmail).mockResolvedValue(undefined);
       const result = await authService.doLogIn({ email: 'email', password: 'password' });
       expect(result).toBeFalsy();
     });
