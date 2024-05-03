@@ -6,7 +6,13 @@ export default defineConfig({
     setupFiles: ['./vitest.setup.ts'],
     globalSetup: ['./vitest.global-setup.ts'],
     coverage: {
-      exclude: [...(configDefaults.coverage.exclude as string[]), 'src/index.ts']
+      exclude: [
+        ...(configDefaults.coverage.exclude as string[]),
+        'src/index.ts',
+        'db/**/*',
+        'drizzle.config.ts',
+        'vitest.global-setup.ts'
+      ]
     }
   },
   plugins: []

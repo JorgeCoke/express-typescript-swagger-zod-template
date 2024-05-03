@@ -2,7 +2,7 @@ import type { Config } from 'drizzle-kit';
 import { env } from './src/lib/env';
 
 export default {
-  schema: './db/schemas/*',
+  schema: './src/lib/drizzle/schemas/*',
   out: './db/migrations',
   driver: 'better-sqlite',
   dbCredentials: {

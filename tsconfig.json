@@ -13,7 +13,7 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     /* If transpiling with TypeScript: */
-    "module": "NodeNext",
+    "module": "CommonJS",
     "outDir": "dist",
     "sourceMap": true,
     /* AND if you're building for a library: */
@@ -35,5 +35,10 @@
     "emitDecoratorMetadata": true
   },
   "exclude": ["node_modules"],
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "test/shared/middlewares.test.ts",
+    "test/api/auth.controller.test.ts",
+    "test/api/monitoring.controller.test.ts"
+  ]
 }

@@ -2,10 +2,10 @@ import express, { Express } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import request from 'supertest';
 import { beforeAll, describe, expect, test } from 'vitest';
-import { HttpError } from '../../types/http-error';
-import { basicAuthMiddleware } from '../basic-auth.middleware';
-import { expressRateLimitMiddleware } from '../express-rate-limit.middleware';
-import { globalErrorHandlerMiddleware } from '../global-error-handler.middleware';
+import { basicAuthMiddleware } from '../../src/shared/middlewares/basic-auth.middleware';
+import { expressRateLimitMiddleware } from '../../src/shared/middlewares/express-rate-limit.middleware';
+import { globalErrorHandlerMiddleware } from '../../src/shared/middlewares/global-error-handler.middleware';
+import { HttpError } from '../../src/shared/types/http-error';
 
 describe('Middlewares', () => {
   let app: Express;

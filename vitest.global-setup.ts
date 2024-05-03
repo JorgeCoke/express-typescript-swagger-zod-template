@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { connection } from './src/lib/drizzle';
+import { connection } from './src/lib/drizzle/db';
 import { env } from './src/lib/env';
 
 let teardown = false;

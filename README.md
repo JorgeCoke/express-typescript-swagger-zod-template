@@ -77,17 +77,15 @@ npm run start         # Launch
 ```
 npm run test                # Run all tests
 npm run test:cov            # Run all tests with code coverage report
-npm run test:unit           # Run unitary tests
-npm run test:integration    # Run integration tests
 ```
 
 ## 📀 Database Drizzle Cheatsheet
 
 ```
-npm run db:generate     # Generate migrations if needed
+npm run db:generate     # Check db schemas and generate migrations if needed
 npm run db:migrate      # Run migrations
 npm run db:seed         # Seed database
 npm run db:studio       # Open drizzle studio
 npm run db:setuptests   # Setup test environment
-npm run db:hardreset    # DANGER! Removes all databases and migrations. Generates migrations, execute them and seed database afterwards
+npm run db:hardreset    # DANGER! Removes all data from databases, run migrations, and seed database afterwards
 ```

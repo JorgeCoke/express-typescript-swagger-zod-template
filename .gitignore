@@ -33,3 +33,6 @@ coverage
 
 # Databases
 *.sqlite
+
+# Packages
+package.tar.gz

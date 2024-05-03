@@ -4,7 +4,7 @@ import { beforeAll, describe, expect, test } from 'vitest';
 import { env } from '../../src/lib/env';
 import { app as server } from '../../src/server';
 
-describe('AuthRouter', () => {
+describe('AuthController', () => {
   let app: Express;
 
   beforeAll(() => {

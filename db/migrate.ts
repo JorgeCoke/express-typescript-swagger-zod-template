@@ -1,5 +1,5 @@
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
-import { connection, db } from '../src/lib/drizzle';
+import { connection, db } from '../src/lib/drizzle/db';
 
 (async function () {
   // This will run migrations on the database, skipping the ones already applied
