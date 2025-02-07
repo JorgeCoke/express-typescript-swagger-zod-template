@@ -55,13 +55,13 @@ const routers = [
 		router: monitoringController.router,
 	},
 ];
-// biome-ignore lint/complexity/noForEach: <explanation>
 routers.forEach((e) => {
 	app.use(e.path, e.router);
 });
 
 // Handle Swagger OpenAPI
 const doc = buildOpenAPIDocument({
+	openApiVersion: "3.0.0",
 	routers,
 	customSchemas: [{ key: "ErrorResponse", schema: ErrorResponse }],
 	securitySchemes: {
@@ -72,7 +72,6 @@ const doc = buildOpenAPIDocument({
 		},
 	},
 	config: {
-		openapi: "3.0.0",
 		info: {
 			version: "1.0.0",
 			title: "Express + Swagger + Zod API",

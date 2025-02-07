@@ -1,15 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// https://github.com/Foundry376/express-zod-openapi-autogen
 import {
 	OpenAPIRegistry,
 	OpenApiGeneratorV3,
+	OpenApiGeneratorV31,
 	type ResponseConfig,
+	type RouteConfig,
 	extendZodWithOpenApi,
 } from "@asteasolutions/zod-to-openapi";
+import type { OpenApiVersion } from "@asteasolutions/zod-to-openapi/dist/openapi-generator";
 import type { RequestHandler, Router } from "express";
-import type {
-	ReferenceObject,
-	SecuritySchemeObject,
-} from "node_modules/openapi3-ts/dist/model/openapi31";
+import { StatusCodes } from "http-status-codes";
+import type { ComponentsObject } from "openapi3-ts/oas30";
 import { ZodArray, ZodEffects, ZodObject, z } from "zod";
 import { getSchemaOfOpenAPIRoute } from "./zod-openapi-route";
 import { ErrorResponse } from "./zod-openapi.types";
@@ -19,6 +20,9 @@ extendZodWithOpenApi(z);
 export type OpenAPIDocument = ReturnType<
 	OpenApiGeneratorV3["generateDocument"]
 >;
+export type OpenAPIV31Document = ReturnType<
+	OpenApiGeneratorV31["generateDocument"]
+>;
 export type OpenAPIComponents = ReturnType<
 	OpenApiGeneratorV3["generateComponents"]
 >;
@@ -27,14 +31,14 @@ export type OpenAPIConfig = Parameters<
 >[0];
 
 export function buildOpenAPIDocument(args: {
-	config: OpenAPIConfig;
+	config: Omit<OpenAPIConfig, "openapi">;
 	routers: { path: string; router: Router }[];
+	securitySchemes?: ComponentsObject["securitySchemes"];
+	openApiVersion: OpenApiVersion;
 	customSchemas: { key: string; schema: z.ZodTypeAny }[];
-	securitySchemes?: {
-		[securityScheme: string]: SecuritySchemeObject | ReferenceObject;
-	};
-}): OpenAPIDocument {
-	const { config, routers, customSchemas, securitySchemes } = args;
+}): OpenAPIDocument | OpenAPIV31Document {
+	const { config, routers, securitySchemes, openApiVersion, customSchemas } =
+		args;
 	const registry = new OpenAPIRegistry();
 	// Attach all of the Zod schemas to the OpenAPI specification
 	// as components that can be referenced in the API definitions
@@ -73,7 +77,6 @@ export function buildOpenAPIDocument(args: {
 
 	// Attach all the API routes, referencing the named components where
 	// possible, and falling back to inlining the Zod shapes.
-	// biome-ignore lint/complexity/noForEach: <explanation>
 	getRoutes(routers).forEach(({ path, method, handler }) => {
 		const {
 			tag,
@@ -85,6 +88,7 @@ export function buildOpenAPIDocument(args: {
 			summary,
 			security,
 			deprecated,
+			finalizeRouteConfig,
 			responseContentType,
 		} = getSchemaOfOpenAPIRoute(handler) || {};
 
@@ -107,79 +111,78 @@ export function buildOpenAPIDocument(args: {
 
 		// If the request includes security, include 401 and 403 errors
 		if (security) {
-			responses[401] = {
+			responses[StatusCodes.UNAUTHORIZED] = {
+				description: `${StatusCodes.UNAUTHORIZED} Unauthorized - Error`,
 				content: {
 					"application/json": {
 						schema: referencingNamedSchemas(ErrorResponse),
 					},
 				},
-				description: "401 Unauthorized - Error",
 			};
-			responses[403] = {
+			responses[StatusCodes.FORBIDDEN] = {
+				description: `${StatusCodes.FORBIDDEN} Forbidden - Error`,
 				content: {
 					"application/json": {
 						schema: referencingNamedSchemas(ErrorResponse),
 					},
 				},
-				description: "403 Forbidden - Error",
 			};
 		}
 
 		// If the request includes path parameters, a 404 error is most likely possible
 		if (params) {
-			responses[404] = {
+			responses[StatusCodes.NOT_FOUND] = {
+				description: `${StatusCodes.NOT_FOUND} Not Found - Error`,
 				content: {
 					"application/json": {
 						schema: referencingNamedSchemas(ErrorResponse),
 					},
 				},
-				description: "404 Not Found - Error",
 			};
 		}
 
 		// If the request includes a query string or request body, Zod 400 errors are possible
 		if (query || body) {
-			responses[400] = {
+			responses[StatusCodes.BAD_REQUEST] = {
+				description: `${StatusCodes.BAD_REQUEST} Bad Request - Error`,
 				content: {
 					"application/json": {
 						schema: referencingNamedSchemas(ErrorResponse),
 					},
 				},
-				description: "400 Bad Request - Error",
 			};
 		}
 
 		// If the API defines a response, assume a 200. If no response schema is specified
 		// we assume the response will be a 204 No Content
 		if (responseContentType) {
-			responses[200] = {
+			responses[StatusCodes.OK] = {
+				description: `A ${responseContentType} payload`,
 				content: {
-					responseContentType: {
+					[responseContentType]: {
 						schema: z.unknown(),
 					},
 				},
-				description: `A ${responseContentType} payload`,
 			};
 		} else if (response) {
-			responses[200] = {
+			responses[StatusCodes.OK] = {
+				description: `${StatusCodes.OK} OK - Successful`,
 				content: {
 					"application/json": {
 						schema: referencingNamedSchemas(response),
 					},
 				},
-				description: "200 Response - Successful",
 			};
 		} else {
-			responses[204] = {
-				description: "204 No content - Successful",
+			responses[StatusCodes.NO_CONTENT] = {
+				description: `${StatusCodes.NO_CONTENT} No content - Successful`,
 			};
 		}
-
-		registry.registerPath({
+		let openapiRouteConfig: RouteConfig = {
 			tags: [tag || "default"],
 			method: method,
 			summary: summary,
-			path: `${pathOpenAPIFormat}`,
+			path: pathOpenAPIFormat,
 			description: description,
 			deprecated: deprecated,
 			security: security ? [{ [security]: [] }] : undefined,
@@ -197,11 +200,22 @@ export function buildOpenAPIDocument(args: {
 				}),
 			},
 			responses: responses,
-		});
+		};
+		if (finalizeRouteConfig) {
+			openapiRouteConfig = finalizeRouteConfig(openapiRouteConfig);
+		}
+
+		registry.registerPath(openapiRouteConfig);
 	});
 
-	const generator = new OpenApiGeneratorV3(registry.definitions);
-	const openapiJSON = generator.generateDocument(config);
+	const generator =
+		openApiVersion === "3.1.0"
+			? new OpenApiGeneratorV31(registry.definitions)
+			: new OpenApiGeneratorV3(registry.definitions);
+	const openapiJSON = generator.generateDocument({
+		...config,
+		openapi: openApiVersion,
+	});
 
 	// Attach the security schemes provided
 	if (securitySchemes) {
@@ -213,14 +227,17 @@ export function buildOpenAPIDocument(args: {
 
 	// Verify that none of the "parameters" are appearing as optional, which is invalid
 	// in the official OpenAPI spec and unsupported by readme.io
-	for (const [route, impl] of Object.entries(openapiJSON.paths)) {
-		for (const method of Object.keys(impl)) {
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-			for (const param of impl[method as any].parameters || []) {
-				if (param.required === false && param.in === "path") {
-					throw new Error(
-						`OpenAPI Error: The route ${route} has an optional parameter ${param.name} in the path. Optional parameters in the route path are not supported by readme.io. Make the parameter required or split the route definition into two separate ones, one with the param and one without.`,
-					);
+	if (openapiJSON.paths) {
+		for (const [route, impl] of Object.entries(openapiJSON.paths)) {
+			for (const key of Object.keys(impl)) {
+				const method = key as keyof typeof impl;
+				for (const param of impl[method].parameters || []) {
+					if (param.required === false && param.in === "path") {
+						param.required = true;
+						throw new Error(
+							`OpenAPI Error: The route ${route} has an optional parameter ${param.name} in the path. Optional parameters in the route path are not supported by readme.io. Make the parameter required or split the route definition into two separate ones, one with the param and one without.`,
+						);
+					}
 				}
 			}
 		}
@@ -238,12 +255,18 @@ const asZodObject = (type?: z.ZodType<any>) => {
 };
 
 // Disable naming convention because fast_slash comes from Express.
-// const regexPrefixToString = (path: { fast_slash: unknown; toString: () => string }): string => {
-//   if (path.fast_slash) {
-//     return '';
-//   }
-//   return path.toString().replace(`/^\\`, '').replace('(?:\\/(?=$))?(?=\\/|$)/i', '');
-// };
+const regexPrefixToString = (path: {
+	fast_slash: unknown;
+	toString: () => string;
+}): string => {
+	if (path.fast_slash) {
+		return "";
+	}
+	return path
+		.toString()
+		.replace("/^\\", "")
+		.replace("(?:\\/(?=$))?(?=\\/|$)/i", "");
+};
 
 export const getRoutes = (routers: { path: string; router: Router }[]) => {
 	const routes: {
@@ -251,26 +274,32 @@ export const getRoutes = (routers: { path: string; router: Router }[]) => {
 		method: "get" | "post" | "put" | "delete";
 		handler: RequestHandler;
 	}[] = [];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const processMiddleware = (middleware: any, prefix = ""): void => {
 		const hasOpenApiMiddleware = middleware.route.stack.find(
 			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			(e: any) => e.__handle.validateSchema,
 		);
-
-		// if (middleware.name === 'router' && middleware.handle.stack) {
-		//   for (const subMiddleware of middleware.handle.stack) {
-		//     processMiddleware(subMiddleware, `${prefix}${regexPrefixToString(middleware.regexp)}`);
-		//   }
-		// }
 		if (!hasOpenApiMiddleware) {
 			// Ignore routes without openAPIRoute middleware
 			return;
 		}
+		if (middleware.name === "router" && middleware.handle.stack) {
+			for (const subMiddleware of middleware.handle.stack) {
+				processMiddleware(
+					subMiddleware,
+					`${prefix}${regexPrefixToString(middleware.regexp)}`,
+				);
+			}
+		}
+		if (!middleware.route) {
+			return;
+		}
 		routes.push({
 			path: `${prefix}${middleware.route.path}`,
-			method: hasOpenApiMiddleware.method,
-			handler: hasOpenApiMiddleware.handle,
+			method: middleware.route.stack[0].method,
+			handler: middleware.route.stack[middleware.route.stack.length - 1].handle,
 		});
 	};
 	// Can remove this any when @types/express upgrades to v5

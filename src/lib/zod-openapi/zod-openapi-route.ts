@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ZodMediaType } from "@asteasolutions/zod-to-openapi/dist/openapi-registry";
+// https://github.com/Foundry376/express-zod-openapi-autogen
+import type { RouteConfig } from "@asteasolutions/zod-to-openapi";
 import type { NextFunction, Request, RequestHandler, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { type ZodError, type ZodSchema, type ZodTypeAny, z } from "zod";
-import { env } from "../env";
 import { ErrorResponse } from "./zod-openapi.types";
 
 type ValidatedMiddleware<ZBody, ZQuery, ZParams, ZResponse> = (
@@ -47,9 +46,14 @@ type SchemaDefinition<
 	/**The content-type of the response, if it is not JSON. Typically this is passed
 	 * instead of a response schema for responses that are text/csv, application/pdf, etc.
 	 */
-	responseContentType?: ZodMediaType;
+	responseContentType?: string;
 	/** Mark the route as deprecated in generated OpenAPI docs. Does not have any impact on routing. */
 	deprecated?: boolean;
+
+	/** Provide a function to apply additional post-processing to the OpenAPI route configuration generated
+	 * based on your API handler. This is the last function to run before the OpenAPI route is added to the registry.
+	 */
+	finalizeRouteConfig?: (config: RouteConfig) => RouteConfig;
 };
 
 const check = <TType>(
@@ -57,7 +61,11 @@ const check = <TType>(
 	obj?: any,
 	schema?: ZodSchema<TType>,
 ): z.SafeParseReturnType<TType, TType> => {
-	return !schema ? { success: true, data: obj } : schema.safeParse(obj);
+	if (!schema) {
+		return { success: true, data: obj };
+	}
+	const r = schema.safeParse(obj);
+	return r;
 };
 
 type ValidatedRequestHandler = RequestHandler & {
@@ -101,25 +109,27 @@ export const openAPIRoute = <
 		z.infer<TResponse>
 	>,
 ): RequestHandler => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const fn: ValidatedRequestHandler = async (req, res, next): Promise<any> => {
+	const fn: ValidatedRequestHandler = async (req, res, next) => {
 		const bodyResult = check(req.body, schema.body);
 		if (!bodyResult.success) {
-			return res
+			res
 				.status(StatusCodes.BAD_REQUEST)
 				.json({ error: getErrorSummary(bodyResult.error) });
+			return;
 		}
 		const queryResult = check(req.query, schema.query);
 		if (!queryResult.success) {
-			return res
+			res
 				.status(StatusCodes.BAD_REQUEST)
 				.json({ error: getErrorSummary(queryResult.error) });
+			return;
 		}
 		const paramResult = check(req.params, schema.params);
 		if (!paramResult.success) {
-			return res
+			res
 				.status(StatusCodes.BAD_REQUEST)
 				.json({ error: getErrorSummary(paramResult.error) });
+			return;
 		}
 
 		if (bodyResult.success && queryResult.success && paramResult.success) {
@@ -129,7 +139,7 @@ export const openAPIRoute = <
 			res.json = (body: unknown) => {
 				// In dev + test, validate that the JSON response from the endpoint matches
 				// the Zod schemas. In production, we skip this because it's just time consuming
-				if (env.NODE_ENV !== "production") {
+				if (process.env.NODE_ENV !== "production") {
 					const acceptable = z.union([
 						schema.response as ZodTypeAny,
 						ErrorResponse,
@@ -158,9 +168,10 @@ export const openAPIRoute = <
 					res,
 					next,
 				);
-				return res
+				res
 					.status(schema.response ? StatusCodes.OK : StatusCodes.NO_CONTENT)
 					.json(response);
+				return;
 			} catch (err) {
 				return next(err);
 			}
@@ -169,7 +180,6 @@ export const openAPIRoute = <
 			new Error("zod-express-guard: Could not validate this request"),
 		);
 	};
-
 	fn.validateSchema = schema;
 	return fn;
 };
