@@ -1,19 +1,24 @@
-import { eq } from "drizzle-orm";
 import { StatusCodes } from "http-status-codes";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
+import type { z } from "zod";
 import { db } from "../../lib/db/drizzle";
 import { users } from "../../lib/db/schemas/users";
-import { Logger } from "../../shared/logger";
-import { HttpError } from "../../shared/models/types/http-error";
-import type { PostLogInBodyDto, PostSignUpBodyDto } from "./auth.types";
+import { HttpError } from "../../lib/models/classes/http-error";
+import { Logger } from "../../lib/models/classes/logger";
+import { UsersRepository } from "../users/users.repository";
+import type { PostLogInDto, PostSignUpDto } from "./auth.dtos";
 
 @injectable()
 export class AuthService extends Logger {
-	public async logIn(body: PostLogInBodyDto): Promise<{ success: boolean }> {
-		const user = await db.query.users
-			.findFirst({ where: eq(users.email, body.email) })
-			.execute();
-		if (!user || user.email !== body.email) {
+	constructor(
+		@inject(UsersRepository) private readonly usersRepository: UsersRepository,
+	) {
+		super();
+	}
+
+	public async logIn(body: z.infer<typeof PostLogInDto.body>) {
+		const user = await this.usersRepository.findOne({ email: body.email });
+		if (!user || user.password !== body.password) {
 			throw new HttpError(
 				StatusCodes.NOT_FOUND,
 				"Invalid credentials or user not found",
@@ -22,10 +27,8 @@ export class AuthService extends Logger {
 		return { success: true };
 	}
 
-	public async signUp(body: PostSignUpBodyDto): Promise<{ success: boolean }> {
-		const user = await db.query.users
-			.findFirst({ where: eq(users.email, body.email) })
-			.execute();
+	public async signUp(body: z.infer<typeof PostSignUpDto.body>) {
+		const user = await this.usersRepository.findOne({ email: body.email });
 		if (user) {
 			throw new HttpError(StatusCodes.CONFLICT, "User already exists");
 		}

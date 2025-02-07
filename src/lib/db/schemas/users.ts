@@ -3,7 +3,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { nanoid } from "nanoid";
 import type { z } from "zod";
-import { ROLE } from "../../../shared/models/enums/role";
+import { ROLE } from "../../models/enums/role";
 
 export const users = sqliteTable("user", {
 	id: text()

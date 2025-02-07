@@ -15,15 +15,25 @@ describe("AuthController", () => {
 		test("returns 200 when login is successful", async () => {
 			const response = await request(app)
 				.post(`${env.API_BASE_PATH}/auth/log-in`)
-				.send({ email: "user1@test.com", password: "test" })
+				.send({ email: "user1@test.com", password: "user1" })
 				.expect(200);
 			expect(response.body).toEqual({ success: true });
 		});
 
-		test("returns 404 when login is not successful", async () => {
+		test("returns 404 when login is not successful (user not found)", async () => {
 			const response = await request(app)
 				.post(`${env.API_BASE_PATH}/auth/log-in`)
 				.send({ email: "bad_email@test.com", password: "bad_credentials" })
+				.expect(404);
+			expect(response.body).toEqual({
+				error: "Invalid credentials or user not found",
+			});
+		});
+
+		test("returns 404 when login is not successful (wrong password)", async () => {
+			const response = await request(app)
+				.post(`${env.API_BASE_PATH}/auth/log-in`)
+				.send({ email: "user1@test.com", password: "wrong_password" })
 				.expect(404);
 			expect(response.body).toEqual({
 				error: "Invalid credentials or user not found",

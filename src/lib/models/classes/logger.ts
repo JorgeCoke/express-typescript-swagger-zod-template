@@ -1,5 +1,5 @@
 import type { Logger as PinoLogger } from "pino";
-import { logger } from "../lib/pino-logger";
+import { logger } from "../../pino-logger";
 
 export class Logger {
 	protected logger: PinoLogger;

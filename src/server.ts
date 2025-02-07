@@ -6,8 +6,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import { createStream } from "rotating-file-stream";
 import { env } from "./lib/env";
-import { routes } from "./routes";
-import { expressRateLimitMiddleware } from "./shared/middlewares/express-rate-limit.middleware";
+import { expressRateLimitMiddleware } from "./lib/middlewares/express-rate-limit.middleware";
+import { router } from "./router";
 require("express-async-errors");
 
 // Server
@@ -31,6 +31,6 @@ const accessLogStream = createStream("access.log", {
 app.use(morgan("common", { stream: accessLogStream }));
 
 // Load Routes
-routes(app);
+router(app);
 
 export { app };

@@ -4,12 +4,12 @@ import { AuthController } from "./api/auth/auth.controller";
 import { MonitoringController } from "./api/monitoring/monitoring.controller";
 import { container } from "./inversify.config";
 import { env } from "./lib/env";
+import { basicAuthMiddleware } from "./lib/middlewares/basic-auth.middleware";
+import { globalErrorHandlerMiddleware } from "./lib/middlewares/global-error-handler.middleware";
 import { buildOpenAPIDocument } from "./lib/zod-openapi/zod-openapi";
 import { ErrorResponse } from "./lib/zod-openapi/zod-openapi.types";
-import { basicAuthMiddleware } from "./shared/middlewares/basic-auth.middleware";
-import { globalErrorHandlerMiddleware } from "./shared/middlewares/global-error-handler.middleware";
 
-export const routes = (app: Express) => {
+export const router = (app: Express) => {
 	const routers = [
 		container.get(AuthController),
 		container.get(MonitoringController),

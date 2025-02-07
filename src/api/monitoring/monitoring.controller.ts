@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
+import { Controller } from "../../lib/models/classes/controller";
 import { openAPIRoute } from "../../lib/zod-openapi/zod-openapi-route";
-import { Controller } from "../../shared/controller";
-import { GetHealthResponseDto } from "./monitoring.types";
+import { GetHealthDto } from "./monitoring.dtos";
 
 @injectable()
 export class MonitoringController extends Controller {
@@ -12,11 +12,11 @@ export class MonitoringController extends Controller {
 			"/health",
 			openAPIRoute(
 				{
-					tag: this.routerPath,
+					tag: this.routerPath, // TODO: remove from here
 					summary: "Health check",
-					response: GetHealthResponseDto,
+					...GetHealthDto,
 				},
-				(_req, _res) => ({ status: "ok" }),
+				() => ({ status: "ok" }),
 			),
 		);
 	}

@@ -1,13 +1,8 @@
 import { inject, injectable } from "inversify";
+import { Controller } from "../../lib/models/classes/controller";
 import { openAPIRoute } from "../../lib/zod-openapi/zod-openapi-route";
-import { Controller } from "../../shared/controller";
+import { PostLogInDto, PostSignUpDto } from "./auth.dtos";
 import { AuthService } from "./auth.service";
-import {
-	PostLogInBodyDto,
-	PostLogInResponseDto,
-	PostSignUpBodyDto,
-	PostSignUpResponseDto,
-} from "./auth.types";
 
 @injectable()
 export class AuthController extends Controller {
@@ -22,26 +17,24 @@ export class AuthController extends Controller {
 			"/log-in",
 			openAPIRoute(
 				{
-					tag: this.routerPath,
+					tag: this.routerPath, // TODO: remove from here
 					summary: "Log-in user",
 					description: "Log-in into the service with user credentials",
-					body: PostLogInBodyDto,
-					response: PostLogInResponseDto,
+					...PostLogInDto,
 				},
-				async (_req, _res) => this.authService.logIn(_req.body),
+				async (req) => this.authService.logIn(req.body),
 			),
 		);
 		this.router.post(
 			"/sign-up",
 			openAPIRoute(
 				{
-					tag: this.routerPath,
+					tag: this.routerPath, // TODO: remove from here
 					summary: "Sign-up new user",
 					description: "Create a new user",
-					body: PostSignUpBodyDto,
-					response: PostSignUpResponseDto,
+					...PostSignUpDto,
 				},
-				async (_req, _res) => this.authService.signUp(_req.body),
+				async (req) => this.authService.signUp(req.body),
 			),
 		);
 	}
