@@ -5,7 +5,7 @@ import { beforeAll, describe, expect, test } from "vitest";
 import { basicAuthMiddleware } from "../../src/shared/middlewares/basic-auth.middleware";
 import { expressRateLimitMiddleware } from "../../src/shared/middlewares/express-rate-limit.middleware";
 import { globalErrorHandlerMiddleware } from "../../src/shared/middlewares/global-error-handler.middleware";
-import { HttpError } from "../../src/shared/types/http-error";
+import { HttpError } from "../../src/shared/models/types/http-error";
 
 describe("Middlewares", () => {
 	let app: Express;

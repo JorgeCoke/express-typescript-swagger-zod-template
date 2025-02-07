@@ -6,7 +6,7 @@ import type {
 } from "express";
 import { StatusCodes } from "http-status-codes";
 import { logger } from "../../lib/pino-logger";
-import { HttpError } from "../types/http-error";
+import { HttpError } from "../models/types/http-error";
 
 const globalErrorHandlerMiddleware: ErrorRequestHandler = (
 	err: Error,

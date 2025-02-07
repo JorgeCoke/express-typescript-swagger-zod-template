@@ -9,7 +9,7 @@ export default defineConfig({
 			exclude: [
 				...(configDefaults.coverage.exclude as string[]),
 				"src/index.ts",
-				"db/**/*",
+				"src/lib/db/seed.ts",
 				"drizzle.config.ts",
 				"vitest.global-setup.ts",
 			],

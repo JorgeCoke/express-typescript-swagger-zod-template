@@ -1,10 +1,10 @@
 import { eq } from "drizzle-orm";
 import { StatusCodes } from "http-status-codes";
 import { injectable } from "inversify";
-import { db } from "../../lib/drizzle/db";
-import { users } from "../../lib/drizzle/schemas/users";
+import { db } from "../../lib/db/drizzle";
+import { users } from "../../lib/db/schemas/users";
 import { Logger } from "../../shared/logger";
-import { HttpError } from "../../shared/types/http-error";
+import { HttpError } from "../../shared/models/types/http-error";
 import type { PostLogInBodyDto, PostSignUpBodyDto } from "./auth.types";
 
 @injectable()

@@ -88,15 +88,3 @@ npm run db:studio       # Open drizzle studio
 npm run db:setuptests   # Setup test environment
 npm run db:hardreset    # DANGER! Removes all data from databases, run migrations, and seed database afterwards
 ```
-
-## TODO
-
-- Move db folder to src/lib/db
-- npm run build should not build test folder
-- Move .commitlintrc.cjs, .czrc, .lintstagedrc.cjs.... to package.json
-- Improve inversify
-- Rename Injectable to Logger & create a Controller genneric service
-- Chack apck-a-punch NPM
-- Update dependencies
-- Migrate to biome
-- Remove names from drizzle (check clodfire for seed and migrations and config)
