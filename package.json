@@ -31,7 +31,7 @@
 		"db:hardreset": "rimraf *.sqlite && npm run db:generate && npm run db:migrate && npm run db:seed",
 		"db:setuptests": "rimraf db.test.sqlite && npm run db:migrate && npm run db:seed",
 		"// LINTERS AND FORMATTERS //": "",
-		"biome": "biome check --write src",
+		"biome": "biome check --write {src,test}",
 		"// RELEASE AND DEPLOYMENT //": "",
 		"release": "branch=$(git branch --show-current); if [[ $branch == 'master' || $branch == 'main' ]]; then commit-and-tag-version; else echo 'Releases allowed from main branch only'; exit 1; fi;",
 		"build": "npm run biome && rimraf dist && tsc",
@@ -102,7 +102,7 @@
 		"extends": ["@commitlint/config-conventional"]
 	},
 	"lint-staged": {
-		"src/**/*": [
+		"{src,test}/**/*": [
 			"biome check --no-errors-on-unmatched --files-ignore-unknown=true"
 		]
 	}

@@ -3,12 +3,12 @@ import { StatusCodes } from "http-status-codes";
 import { injectable } from "inversify";
 import { db } from "../../lib/drizzle/db";
 import { users } from "../../lib/drizzle/schemas/users";
-import { Injectable } from "../../shared/injectable";
+import { Logger } from "../../shared/logger";
 import { HttpError } from "../../shared/types/http-error";
 import type { PostLogInBodyDto, PostSignUpBodyDto } from "./auth.types";
 
 @injectable()
-export class AuthService extends Injectable {
+export class AuthService extends Logger {
 	public async logIn(body: PostLogInBodyDto): Promise<{ success: boolean }> {
 		const user = await db.query.users
 			.findFirst({ where: eq(users.email, body.email) })

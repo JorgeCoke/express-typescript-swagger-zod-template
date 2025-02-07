@@ -1,9 +1,7 @@
-import { Router } from "express";
 import { inject, injectable } from "inversify";
-import { INVERSIFY_TYPES } from "../../inversify.types";
 import { openAPIRoute } from "../../lib/zod-openapi/zod-openapi-route";
-import { Injectable } from "../../shared/injectable";
-import type { AuthService } from "./auth.service";
+import { Controller } from "../../shared/controller";
+import { AuthService } from "./auth.service";
 import {
 	PostLogInBodyDto,
 	PostLogInResponseDto,
@@ -12,15 +10,11 @@ import {
 } from "./auth.types";
 
 @injectable()
-export class AuthController extends Injectable {
-	private authService: AuthService;
-	public router: Router = Router();
-	public routerPath = "/auth";
+export class AuthController extends Controller {
+	readonly routerPath = "/auth";
 
-	constructor(@inject(INVERSIFY_TYPES.AuthService) _authService: AuthService) {
+	constructor(@inject(AuthService) private readonly authService: AuthService) {
 		super();
-		this.authService = _authService;
-		this.mountRoutes();
 	}
 
 	public mountRoutes() {

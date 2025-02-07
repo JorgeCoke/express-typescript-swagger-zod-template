@@ -6,10 +6,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import { createStream } from "rotating-file-stream";
 import { serve, setup } from "swagger-ui-express";
-import type { AuthController } from "./api/auth/auth.controller";
-import type { MonitoringController } from "./api/monitoring/monitoring.controller";
+import { AuthController } from "./api/auth/auth.controller";
+import { MonitoringController } from "./api/monitoring/monitoring.controller";
 import { container } from "./inversify.config";
-import { INVERSIFY_TYPES } from "./inversify.types";
 import { env } from "./lib/env";
 import { buildOpenAPIDocument } from "./lib/zod-openapi/zod-openapi";
 import { ErrorResponse } from "./lib/zod-openapi/zod-openapi.types";
@@ -39,12 +38,8 @@ const accessLogStream = createStream("access.log", {
 app.use(morgan("common", { stream: accessLogStream }));
 
 // Load Routes
-const authController = container.get<AuthController>(
-	INVERSIFY_TYPES.AuthController,
-);
-const monitoringController = container.get<MonitoringController>(
-	INVERSIFY_TYPES.MonitoringController,
-);
+const authController = container.get(AuthController);
+const monitoringController = container.get(MonitoringController);
 const routers = [
 	{
 		path: `${env.API_BASE_PATH}${authController.routerPath}`,
