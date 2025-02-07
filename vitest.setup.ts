@@ -1,2 +1,2 @@
-import 'reflect-metadata';
-import './src/lib/env';
+import "reflect-metadata";
+import "./src/lib/env";

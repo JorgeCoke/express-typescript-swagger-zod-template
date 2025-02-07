@@ -20,7 +20,7 @@
 - 🔒 Security middlewares provided: [Helmet](https://www.npmjs.com/package/helment) for HTTP header security, [CORS](https://www.npmjs.com/package/cors) setup, and [Rate Limiting](https://www.npmjs.com/package/express-rate-limit)
 - 💉 [InversifyJS](https://github.com/inversify/InversifyJS) Dependency Injection
 - 🌐 Latest stable NodeJS working environment, with .env config variables validated with [Zod](https://zod.dev/)
-- 🎨 [ESLint](https://www.npmjs.com/package/eslint) & [Prettier](https://www.npmjs.com/package/prettier) as linter and formatter
+- 🎨 The best **linter** and **formatter**, [BiomeJS](https://biomejs.dev/)
 - 🐶 Pre-Commit and Commit [Husky](https://github.com/typicode/husky) hooks (Runs linter and formatter before any commit against staged files only!)
 - 💄 Commit nomenclature rules following [Conventional Commit Format](https://commitlint.js.org/) and [Commitizen CLI](https://github.com/commitizen/cz-cli) (emoji [powered](https://github.com/folke/devmoji))
 - 🚀 Release management policy with [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version), including automagically CHANGELOG.md generation, version bumping and GitTags
@@ -40,8 +40,7 @@ npm run dev             # Launch project locally
 ## 🎨 Linter & Formatter
 
 ```
-npm run lint         # Run ESLint
-npm run format       # Run Prettier
+npm run biome        # Run Biome
 ```
 
 ## ⛩ Git Commit with Commitizen
@@ -89,3 +88,15 @@ npm run db:studio       # Open drizzle studio
 npm run db:setuptests   # Setup test environment
 npm run db:hardreset    # DANGER! Removes all data from databases, run migrations, and seed database afterwards
 ```
+
+## TODO
+
+- Move db folder to src/lib/db
+- npm run build should not build test folder
+- Move .commitlintrc.cjs, .czrc, .lintstagedrc.cjs.... to package.json
+- Improve inversify
+- Rename Injectable to Logger & create a Controller genneric service
+- Chack apck-a-punch NPM
+- Update dependencies
+- Migrate to biome
+- Remove names from drizzle (check clodfire for seed and migrations and config)

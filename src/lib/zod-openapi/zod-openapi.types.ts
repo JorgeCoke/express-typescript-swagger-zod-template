@@ -1,6 +1,6 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const ErrorResponse = z.object({
-  error: z.string()
+	error: z.string(),
 });
 export type ErrorResponse = z.infer<typeof ErrorResponse>;
