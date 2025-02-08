@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.2.0](https://github.com/JorgeCoke/express-typescript-swagger-zod-template/compare/v1.1.0...v1.2.0) (2025-02-08)
+
+
+### Features
+
+* ✨ add drizzleorm ([a46a79f](https://github.com/JorgeCoke/express-typescript-swagger-zod-template/commit/a46a79f24cf2256193f14812b0213f854202d208))
+* ✨ add routes.ts ([fdf5874](https://github.com/JorgeCoke/express-typescript-swagger-zod-template/commit/fdf58744cce453caab181820369549ca77262a0b))
+* ✨ group openapi endpoints by tag automatically ([7a589fd](https://github.com/JorgeCoke/express-typescript-swagger-zod-template/commit/7a589fd212178786c5ed71265eee193f2943ff45))
+
 ## [1.1.0](https://github.com/JorgeCoke/express-typescript-swagger-zod-template/compare/v1.0.0...v1.1.0) (2024-04-23)
 
 

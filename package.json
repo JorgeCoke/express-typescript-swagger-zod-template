@@ -1,6 +1,6 @@
 {
 	"name": "express-typescript-swagger-zod-template",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"description": "Express Typescript Swagger and Zod template",
 	"engines": {
 		"node": ">=21.0.0",
@@ -99,7 +99,9 @@
 		}
 	},
 	"commitlint": {
-		"extends": ["@commitlint/config-conventional"]
+		"extends": [
+			"@commitlint/config-conventional"
+		]
 	},
 	"lint-staged": {
 		"{src,test}/**/*": [
