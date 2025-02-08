@@ -14,12 +14,12 @@ export const router = (app: Express) => {
 		container.get(AuthController),
 		container.get(MonitoringController),
 	].map((c) => ({
-		path: `${env.API_BASE_PATH}${c.routerPath}`,
+		basePath: `${env.API_BASE_PATH}${c.routerPath}`,
 		router: c.router,
 	}));
 
 	routers.forEach((e) => {
-		app.use(e.path, e.router);
+		app.use(e.basePath, e.router);
 	});
 
 	// Handle Swagger OpenAPI

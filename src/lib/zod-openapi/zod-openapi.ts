@@ -32,7 +32,7 @@ export type OpenAPIConfig = Parameters<
 
 export function buildOpenAPIDocument(args: {
 	config: Omit<OpenAPIConfig, "openapi">;
-	routers: { path: string; router: Router }[];
+	routers: { basePath: string; router: Router }[];
 	securitySchemes?: ComponentsObject["securitySchemes"];
 	openApiVersion: OpenApiVersion;
 	customSchemas: { key: string; schema: z.ZodTypeAny }[];
@@ -77,7 +77,7 @@ export function buildOpenAPIDocument(args: {
 
 	// Attach all the API routes, referencing the named components where
 	// possible, and falling back to inlining the Zod shapes.
-	getRoutes(routers).forEach(({ path, method, handler }) => {
+	getRoutes(routers).forEach(({ path, method, handler, basePath }) => {
 		const {
 			tag,
 			body,
@@ -178,8 +178,9 @@ export function buildOpenAPIDocument(args: {
 				description: `${StatusCodes.NO_CONTENT} No content - Successful`,
 			};
 		}
+		console.log(path);
 		let openapiRouteConfig: RouteConfig = {
-			tags: [tag || "default"],
+			tags: [tag || basePath || "default"],
 			method: method,
 			summary: summary,
 			path: pathOpenAPIFormat,
@@ -268,15 +269,16 @@ const regexPrefixToString = (path: {
 		.replace("(?:\\/(?=$))?(?=\\/|$)/i", "");
 };
 
-export const getRoutes = (routers: { path: string; router: Router }[]) => {
+export const getRoutes = (routers: { basePath: string; router: Router }[]) => {
 	const routes: {
 		path: string;
 		method: "get" | "post" | "put" | "delete";
 		handler: RequestHandler;
+		basePath: string;
 	}[] = [];
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const processMiddleware = (middleware: any, prefix = ""): void => {
+	const processMiddleware = (middleware: any, basePath = ""): void => {
 		const hasOpenApiMiddleware = middleware.route.stack.find(
 			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			(e: any) => e.__handle.validateSchema,
@@ -289,7 +291,7 @@ export const getRoutes = (routers: { path: string; router: Router }[]) => {
 			for (const subMiddleware of middleware.handle.stack) {
 				processMiddleware(
 					subMiddleware,
-					`${prefix}${regexPrefixToString(middleware.regexp)}`,
+					`${basePath}${regexPrefixToString(middleware.regexp)}`,
 				);
 			}
 		}
@@ -297,15 +299,16 @@ export const getRoutes = (routers: { path: string; router: Router }[]) => {
 			return;
 		}
 		routes.push({
-			path: `${prefix}${middleware.route.path}`,
+			path: `${basePath}${middleware.route.path}`,
 			method: middleware.route.stack[0].method,
 			handler: middleware.route.stack[middleware.route.stack.length - 1].handle,
+			basePath: basePath,
 		});
 	};
 	// Can remove this any when @types/express upgrades to v5
 	for (const router of routers) {
 		for (const middleware of router.router.stack) {
-			processMiddleware(middleware, router.path);
+			processMiddleware(middleware, router.basePath);
 		}
 	}
 	return routes;

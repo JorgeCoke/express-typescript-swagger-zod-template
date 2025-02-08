@@ -19,7 +19,7 @@ type SchemaDefinition<
 	TResponse extends ZodTypeAny,
 > = {
 	/**The category this route should be displayed in within the OpenAPI documentation. */
-	tag: string;
+	tag?: string;
 	/**A short one-line description of the route */
 	summary: string;
 	/**A long-form explanation of the route  */

@@ -12,7 +12,6 @@ export class MonitoringController extends Controller {
 			"/health",
 			openAPIRoute(
 				{
-					tag: this.routerPath, // TODO: remove from here
 					summary: "Health check",
 					...GetHealthDto,
 				},

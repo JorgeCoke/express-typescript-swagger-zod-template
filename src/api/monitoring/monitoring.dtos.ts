@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// TODO: Add Dto generic type
 export const GetHealthDto = {
 	// body: z.object({ foo: z.string() }),
 	// params: z.object({ foo: z.string() }),

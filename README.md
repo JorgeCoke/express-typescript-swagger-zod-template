@@ -12,6 +12,7 @@
 - 📚 [Swagger](https://swagger.io/) OpenApi definition automatically generated based on your Zod Schemas, served vía Swagger UI
 - 🦄 [Zod](https://zod.dev/) Validate inputs and outputs, type Req and Res objects automagically, under a Typesafety environment
 - 📁 Scalable Project Structure, split features into modules
+- 🌧 [Drizzle](https://orm.drizzle.team/) as **SQLite ORM**
 - 🧪 Powerful testing suite setup with [Vitest](https://vitest.dev/) and [Supertest](https://www.npmjs.com/package/supertest). Unitary and Integration test included, +90% code coverage report included!
 - 📄 [Morgan](https://www.npmjs.com/package/morgan) Log retention. Save your request logs automatically with an automated rotating write stream
 - 🌲 [Pino](https://github.com/pinojs/pino) logger

@@ -17,7 +17,6 @@ export class AuthController extends Controller {
 			"/log-in",
 			openAPIRoute(
 				{
-					tag: this.routerPath, // TODO: remove from here
 					summary: "Log-in user",
 					description: "Log-in into the service with user credentials",
 					...PostLogInDto,
@@ -29,7 +28,6 @@ export class AuthController extends Controller {
 			"/sign-up",
 			openAPIRoute(
 				{
-					tag: this.routerPath, // TODO: remove from here
 					summary: "Sign-up new user",
 					description: "Create a new user",
 					...PostSignUpDto,
