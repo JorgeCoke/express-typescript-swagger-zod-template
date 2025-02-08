@@ -1,8 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
 import type { z } from "zod";
-import { db } from "../../lib/db/drizzle";
-import { users } from "../../lib/db/schemas/users";
 import { HttpError } from "../../lib/models/classes/http-error";
 import { Logger } from "../../lib/models/classes/logger";
 import { UsersRepository } from "../users/users.repository";
@@ -32,7 +30,7 @@ export class AuthService extends Logger {
 		if (user) {
 			throw new HttpError(StatusCodes.CONFLICT, "User already exists");
 		}
-		const newUser = await db.insert(users).values(body);
-		return { success: !!newUser };
+		const newUser = await this.usersRepository.insert(body);
+		return { success: newUser.changes === 1 };
 	}
 }

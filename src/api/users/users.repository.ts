@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { injectable } from "inversify";
 import { db } from "../../lib/db/drizzle";
-import { users } from "../../lib/db/schemas/users";
+import { type InsertUser, users } from "../../lib/db/schemas/users";
 import { Logger } from "../../lib/models/classes/logger";
 
 @injectable()
@@ -10,5 +10,9 @@ export class UsersRepository extends Logger {
 		return await db.query.users
 			.findFirst({ where: eq(users.email, query.email) })
 			.execute();
+	}
+
+	public async insert(value: InsertUser) {
+		return await db.insert(users).values(value);
 	}
 }

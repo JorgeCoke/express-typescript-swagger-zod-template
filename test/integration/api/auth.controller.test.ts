@@ -1,8 +1,8 @@
 import type { Express } from "express";
 import request from "supertest";
 import { beforeAll, describe, expect, test } from "vitest";
-import { env } from "../../src/lib/env";
-import { app as server } from "../../src/server";
+import { env } from "../../../src/lib/env";
+import { app as server } from "../../../src/server";
 
 describe("AuthController", () => {
 	let app: Express;
